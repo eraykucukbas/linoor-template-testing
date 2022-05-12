@@ -28,6 +28,7 @@
 </template>
 
 <script>
+  import test from '../plugins/helper'
   export default {
     name: "BlogPage",
 

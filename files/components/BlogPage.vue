@@ -1,23 +1,15 @@
-<template>
-  <section>
-    <div>
-      <div id="card">
-        <ul class="list-group">
-          <li class="list-group-item" v-for="character in characterList" :key="character.id">
-            <img class="image" v-bind:src="character.image">
-            <h1 id="title">{{character.id}}-{{character.name}} </h1>
-            <p>Status : {{character.status}}</p>
-            <p>Species : {{character.species}}</p>
-            <p>Gender : {{character.gender}}</p>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-
-  </section>
-
-
+<template id="blog">
+  <div id="card">
+    <ul class="list-group">
+      <li class="list-group-item" v-for="character in characterList" :key="character.id">
+        <img class="image" v-bind:src="character.image">
+        <h1 id="title">{{character.id}}-{{character.name}} </h1>
+        <p>Status : {{character.status}}</p>
+        <p>Species : {{character.species}}</p>
+        <p>Gender : {{character.gender}}</p>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -47,53 +39,41 @@
       this.getCharacters()
     }
   }
-
 </script>
 
 <style scoped>
-  div {
-    display: inline-block;
-    margin: 5%;
+  #card {
+    margin:5% 10%;
   }
-
-  ul {
-    display: inline-block;
+  #card ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
   }
-
-  li {
-    display: inline-block;
-    list-style: none;
-    margin: 2%;
-    padding: 0%;
-    box-sizing: border-box;
+  #card ul li {
+    width: 20%;
+    max-width: 300px;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding: 0;
     border: 1px solid black;
-    border-radius: 1%;
     background-color: bisque;
   }
-
-  .image {
-    display: inline-block;
+  #card ul li:hover {
+    background-color: rgb(12, 11, 11);
   }
-
-
-
-  #title {
-    color: rgb(155, 70, 235);
-    font-family: fantasy;
-
-  }
-
-  p {
-    color: rgb(30, 204, 102);
-    font-weight: bold;
-
-  }
-
-  h1,
-  p {
-    font-size: 100%;
-    margin: 1%;
+  #card ul li h1 {
+    margin-top:2%;
+    font-size: 2rem;
     text-align: center;
+    color: rgb(155, 70, 235);
   }
-
+  #card ul li p {
+    font-size: 2rem;
+    text-align: center;
+    color: rgb(30, 204, 102);
+  }
 </style>

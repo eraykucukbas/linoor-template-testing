@@ -1,30 +1,53 @@
 <template id="blog">
-  <div id="card">
-    <ul class="list-group">
-      <li class="list-group-item" v-for="character in characterList" :key="character.id">
-        <img class="image" v-bind:src="character.image">
-        <h1 id="title">{{character.id}}-{{character.name}} </h1>
-        <p>Status : {{character.status}}</p>
-        <p>Species : {{character.species}}</p>
-        <p>Gender : {{character.gender}}</p>
-      </li>
-    </ul>
+  <div class="container">
+    <div class="row">
+      <div>
+        <div id="myModal" class="modal" :data="modalData">
+          <div class="modal-content">
+            <div class="text-center">
+              <img class="image" :src="modalData.image">
+              <h5 id="modal-title" class="title">{{modalData.id}}-{{modalData.name}}</h5>
+            </div>
+            <div id="modal-body" class="col text-center">
+              <p><strong>Status: </strong>{{modalData.status}}</p>
+              <p><strong>Status: </strong>{{modalData.species}}</p>
+              <p><strong>Type: </strong>{{modalData.type}}</p>
+              <p><strong>Gender: </strong>{{modalData.gender}}</p>
+              <p><strong>Location: </strong>{{modalData.location.name}}</p>
+              <p><strong>Origin: </strong>{{modalData.origin.name}}</p>
+              <p><strong>Number of Episodes: </strong>{{modalData.episode.length}}</p>
+              <p><strong>All Episodes: </strong>{{modalData.episode}}</p>
+            </div>
+            <button type="button" @click="closeModal" class="close">Close</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4 p-4" v-for="character in characterList" :key="character.id">
+        <div class="card" style="background: bisque">
+          <img class="card-img-top" :src="character.image">
+          <h5 class="card-title text-center p-2">{{character.id}}-{{character.name}}</h5>
+          <div class="footer text-center">
+            <button type="button" @click="showModal(character)" id="myBtn" class="btn btn-outline-success btn-block">More
+              Info</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
-
 <script>
+  import notFoundVue from '../pages/not-found.vue';
   import test from '../plugins/helper'
   export default {
     name: "BlogPage",
     data() {
       return {
-        characterImage: null,
-        characterId: null,
-        characterName: null,
-        characterStatus: null,
-        characterSpecies: null,
-        characterGender: null,
-        characterList: {}
+        characterList: {},
+        modalData: {
+          origin: {},
+          location: {},
+          episode: {}
+        }
       }
     },
     methods: {
@@ -33,47 +56,62 @@
           .then((response) => {
             this.characterList = response.data.results;
           })
+      },
+      showModal: function (data) {
+        let modal = document.getElementById("myModal");
+        modal.style.display = "block";
+        this.modalData = data;
+        console.log(data.episode.length);
+      },
+      closeModal: function () {
+        let modal = document.getElementById("myModal");
+        modal.style.display = "none";
       }
     },
     created: function () {
       this.getCharacters()
     }
   }
-</script>
 
+</script>
 <style scoped>
-  #card {
-    margin:5% 10%;
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
   }
-  #card ul {
-    list-style-type: none;
-    display: flex;
-    justify-content: space-evenly;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  #card ul li {
-    width: 20%;
-    max-width: 300px;
-    margin-top: 1%;
-    margin-bottom: 1%;
-    padding: 0;
-    border: 1px solid black;
+
+  .modal-content {
     background-color: bisque;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
   }
-  #card ul li:hover {
-    background-color: rgb(12, 11, 11);
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
   }
-  #card ul li h1 {
-    margin-top:2%;
-    font-size: 2rem;
-    text-align: center;
-    color: rgb(155, 70, 235);
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
   }
-  #card ul li p {
-    font-size: 2rem;
-    text-align: center;
-    color: rgb(30, 204, 102);
+
+  #modal-body p {
+    color: rgb(0, 0, 0);
   }
+
 </style>
